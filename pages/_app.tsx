@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: any) {
     setUser(user);
   }
   return (
-    <div>
+    <div className="bg-slate-800">
       <nav className="p-6 border-b border-gray-300">
         <Link href="/">
           <span className="mr-6 cursor-pointer">Home</span>
@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: any) {
           </Link>
         )}
       </nav>
-      <div className="py-8 px-16">
+      <div className="py-8 px-16 ">
         <Component {...pageProps} />
       </div>
     </div>

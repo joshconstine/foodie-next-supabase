@@ -33,7 +33,7 @@ const Home: NextPage = () => {
   else {
     console.log(posts);
     return (
-      <div className={styles.container}>
+      <div>
         <h1 className="text-3xl font-semibold tracking-wide mt-6 mb-2">
           Posts
         </h1>
