@@ -4,14 +4,14 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import { supabase } from "../api";
-
+import { Post } from "./posts/[id]";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 const initialState = { title: "", content: "" };
 
 function CreatePost() {
-  const [post, setPost] = useState(initialState);
+  const [post, setPost] = useState<Post>(initialState);
   const { title, content } = post;
   const router = useRouter();
   function onChange(e) {
@@ -24,9 +24,10 @@ function CreatePost() {
     post.id = id;
     const { data } = await supabase
       .from("posts")
-      .insert([{ title, content, user_id: user.id, user_email: user.email }])
+      // .insert([{ title, content, user_id: user?.id, user_email: user?.email }])
+      .insert([{ title, content, user_id: user?.id, user_email: user?.email }])
       .single();
-    router.push(`/posts/${data.id}`);
+    router.push(`/posts/${id}`);
   }
   return (
     <div>

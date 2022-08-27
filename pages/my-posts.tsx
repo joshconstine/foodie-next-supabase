@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "../api";
+import { Post } from "./posts/[id]";
 
 export default function MyPosts() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -13,7 +14,7 @@ export default function MyPosts() {
     const { data } = await supabase
       .from("posts")
       .select("*")
-      .filter("user_id", "eq", user.id);
+      .filter("user_id", "eq", user?.id);
     setPosts(data);
   }
   async function deletePost(id) {

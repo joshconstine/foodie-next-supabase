@@ -6,7 +6,9 @@ const AddComment = (props: any) => {
 
   const handleSubmit = (e) => {
     console.log("Submit add post route here", text);
+
     setter(false);
+    setText("");
   };
   const handleChange = (e) => {
     setText(e.target.value);

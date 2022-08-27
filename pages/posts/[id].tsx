@@ -8,7 +8,7 @@ export type Post = {
   id: number;
   title: string;
   user_displayName: string;
-  user_email: string;
+  user_email?: string;
   user_id: string;
   content: string;
   inserted_at: string;
@@ -16,8 +16,7 @@ export type Post = {
 
 export default function Post(props: any) {
   const { post } = props;
-  const [AddCommentForm, setAddCommentForm] = useState(true);
-  console.log(post);
+  const [AddCommentForm, setAddCommentForm] = useState(false);
   const router = useRouter();
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -44,15 +43,15 @@ export default function Post(props: any) {
         add comment
       </button>
       {commentForm()}
-      {/* <AddComment /> */}
     </div>
   );
 }
 
 export async function getStaticPaths() {
   const { data, error } = await supabase.from("posts").select("id");
+  console.log(data);
   const paths = data?.map((post) => ({
-    params: { id: JSON.stringify(post.id) },
+    params: { id: post.id },
   }));
   return {
     paths,
@@ -62,14 +61,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const { id } = params;
-  const { data } = await supabase
-    .from("posts")
-    .select()
-    .filter("id", "eq", id)
-    .single();
+  const { data } = await supabase.from("posts").select().eq("id", id);
   return {
     props: {
-      post: data,
+      post: data ? data[0] : {},
     },
   };
 }
