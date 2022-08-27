@@ -2,27 +2,31 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "../../api";
 
-export default function Post({ post }) {
+export default function Post({ post }: any) {
   const router = useRouter();
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
+  const handleAddComment = () => {
+    console.log("add comment ");
+  };
   return (
     <div>
       <h1 className="text-5xl mt-4 font-semibold tracking-wide">
         {post.title}
       </h1>
-      <p className="text-sm font-light my-4">by {post.user_email}</p>
+      <p className="text-sm font-light my-4">by {post.user_display_name}</p>
       <div className="mt-8">
         <ReactMarkdown className="prose" children={post.content} />
       </div>
+      <button onClick={handleAddComment}>add comment</button>
     </div>
   );
 }
 
 export async function getStaticPaths() {
   const { data, error } = await supabase.from("posts").select("id");
-  const paths = data.map((post) => ({
+  const paths = data?.map((post) => ({
     params: { id: JSON.stringify(post.id) },
   }));
   return {
