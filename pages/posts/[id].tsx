@@ -16,11 +16,20 @@ export type Post = {
 
 export default function Post(props: any) {
   const { post } = props;
+  const [AddCommentForm, setAddCommentForm] = useState(true);
   console.log(post);
   const router = useRouter();
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
+
+  const commentForm = () => {
+    if (AddCommentForm) {
+      return <AddComment setter={setAddCommentForm} />;
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <div>
@@ -31,7 +40,11 @@ export default function Post(props: any) {
       <div className="mt-8">
         <ReactMarkdown className="prose">{post.content}</ReactMarkdown>
       </div>
-      <AddComment />
+      <button onClick={() => setAddCommentForm(!AddCommentForm)}>
+        add comment
+      </button>
+      {commentForm()}
+      {/* <AddComment /> */}
     </div>
   );
 }
