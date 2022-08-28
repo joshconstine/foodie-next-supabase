@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "../api";
+import { supabase } from "../utils/api";
 
 interface IPost {
   id: number;
@@ -31,7 +31,6 @@ const Home: NextPage = () => {
   if (loading) return <p className="text-2xl">Loading ...</p>;
   if (!posts.length) return <p className="text-2xl">No posts.</p>;
   else {
-    console.log(posts);
     return (
       <div>
         <h1 className="text-3xl font-semibold tracking-wide mt-6 mb-2">

@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
+import { comment } from "postcss";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { supabase } from "../../api";
+import { supabase } from "../../utils/api";
 import AddComment from "../../components/AddComment";
 
 export type Post = {
@@ -24,7 +25,7 @@ export default function Post(props: any) {
 
   const commentForm = () => {
     if (AddCommentForm) {
-      return <AddComment setter={setAddCommentForm} />;
+      return <AddComment setter={setAddCommentForm} parent={post.id} />;
     } else {
       return <></>;
     }
@@ -49,7 +50,6 @@ export default function Post(props: any) {
 
 export async function getStaticPaths() {
   const { data, error } = await supabase.from("posts").select("id");
-  console.log(data);
   const paths = data?.map((post) => ({
     params: { id: post.id },
   }));
@@ -61,7 +61,11 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const { id } = params;
-  const { data } = await supabase.from("posts").select().eq("id", id);
+  const { data } = await supabase
+    .from("posts")
+    .select("*, comment(*)")
+    .eq("id", id);
+
   return {
     props: {
       post: data ? data[0] : {},

@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
-import { supabase } from "../api";
+import { supabase } from "../utils/api";
 import { Post } from "./posts/[id]";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -14,7 +14,7 @@ function CreatePost() {
   const [post, setPost] = useState<Post>(initialState);
   const { title, content } = post;
   const router = useRouter();
-  function onChange(e) {
+  function handleChange(e) {
     setPost(() => ({ ...post, [e.target.name]: e.target.value }));
   }
   async function createNewPost() {
@@ -35,7 +35,7 @@ function CreatePost() {
         Create new post
       </h1>
       <input
-        onChange={onChange}
+        onChange={handleChange}
         name="title"
         placeholder="Title"
         value={post.title}

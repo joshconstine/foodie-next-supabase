@@ -2,7 +2,7 @@
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { supabase } from "../api";
+import { supabase } from "../utils/api";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: any) {
